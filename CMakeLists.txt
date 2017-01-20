@@ -43,5 +43,6 @@ add_custom_target(vg
 )
 add_dependencies(vg check.out)
 
-install(TARGETS LIBRARY)
+install(TARGETS ai-cpp
+        LIBRARY DESTINATION lib)
 install(DIRECTORY include/ai DESTINATION include)
