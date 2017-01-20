@@ -44,3 +44,4 @@ add_custom_target(vg
 add_dependencies(vg check.out)
 
 install(TARGETS LIBRARY)
+install(DIRECTORY include/ai DESTINATION include)
