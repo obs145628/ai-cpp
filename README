@@ -1,0 +1,14 @@
+ai-cpp is a library for several of my ai projects.
+It contains maths, console graphisms, and others linux features.
+
+## Compilation
+
+mkdir build
+cd build
+cmake ..
+make
+
+## Tests
+
+run tests : make check
+run tests with valgrind --track-fds=yes : make vg
