@@ -42,3 +42,5 @@ add_custom_target(vg
   COMMAND valgrind --track-fds=yes ./check.out
 )
 add_dependencies(vg check.out)
+
+install(TARGETS LIBRARY)
