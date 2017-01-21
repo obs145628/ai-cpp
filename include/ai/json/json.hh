@@ -3,6 +3,13 @@
 #include <string>
 #include <iostream>
 
+class JsonNull;
+class JsonBool;
+class JsonNumber;
+class JsonString;
+class JsonArray;
+class JsonObject;
+
 class Json
 {
 public:
@@ -30,6 +37,19 @@ public:
   bool is_number() const;
   bool is_bool() const;
   bool is_null() const;
+
+  JsonNull& to_null();
+  JsonBool& to_bool();
+  JsonNumber& to_number();
+  JsonString& to_string();
+  JsonArray& to_array();
+  JsonObject& to_object();
+  const JsonNull& to_null() const;
+  const JsonBool& to_bool() const;
+  const JsonNumber& to_number() const;
+  const JsonString& to_string() const;
+  const JsonArray& to_array() const;
+  const JsonObject& to_object() const;
 
   static Json* parse(std::istream& is);
 

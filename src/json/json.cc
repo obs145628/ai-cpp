@@ -1,4 +1,5 @@
 #include "json/json.hh"
+#include <stdexcept>
 #include <sstream>
 #include "json/json-null.hh"
 #include "json/json-bool.hh"
@@ -46,6 +47,90 @@ bool Json::is_bool() const
 bool Json::is_null() const
 {
   return type_get() == Type::NIL;
+}
+
+JsonNull& Json::to_null()
+{
+  if (!is_null())
+    throw std::runtime_error{"Invalid cast to JsonNull"};
+  return dynamic_cast<JsonNull&> (*this);
+}
+
+JsonBool& Json::to_bool()
+{
+  if (!is_null())
+    throw std::runtime_error{"Invalid cast to JsonBool"};
+  return dynamic_cast<JsonBool&> (*this);
+}
+
+JsonNumber& Json::to_number()
+{
+  if (!is_number())
+    throw std::runtime_error{"Invalid cast to JsonNumber"};
+  return dynamic_cast<JsonNumber&> (*this);
+}
+
+JsonString& Json::to_string()
+{
+  if (!is_string())
+    throw std::runtime_error{"Invalid cast to JsonString"};
+  return dynamic_cast<JsonString&> (*this);
+}
+
+JsonArray& Json::to_array()
+{
+  if (!is_array())
+    throw std::runtime_error{"Invalid cast to JsonArray"};
+  return dynamic_cast<JsonArray&> (*this);
+}
+
+JsonObject& Json::to_object()
+{
+  if (!is_object())
+    throw std::runtime_error{"Invalid cast to JsonObject"};
+  return dynamic_cast<JsonObject&> (*this);
+}
+
+const JsonNull& Json::to_null() const
+{
+  if (!is_null())
+    throw std::runtime_error{"Invalid cast to JsonNull"};
+  return dynamic_cast<const JsonNull&> (*this);
+}
+
+const JsonBool& Json::to_bool() const
+{
+  if (!is_null())
+    throw std::runtime_error{"Invalid cast to JsonBool"};
+  return dynamic_cast<const JsonBool&> (*this);
+}
+
+const JsonNumber& Json::to_number() const
+{
+  if (!is_number())
+    throw std::runtime_error{"Invalid cast to JsonNumber"};
+  return dynamic_cast<const JsonNumber&> (*this);
+}
+
+const JsonString& Json::to_string() const
+{
+  if (!is_string())
+    throw std::runtime_error{"Invalid cast to JsonString"};
+  return dynamic_cast<const JsonString&> (*this);
+}
+
+const JsonArray& Json::to_array() const
+{
+  if (!is_array())
+    throw std::runtime_error{"Invalid cast to JsonArray"};
+  return dynamic_cast<const JsonArray&> (*this);
+}
+
+const JsonObject& Json::to_object() const
+{
+  if (!is_object())
+    throw std::runtime_error{"Invalid cast to JsonObject"};
+  return dynamic_cast<const JsonObject&> (*this);
 }
 
 Json* Json::parse(std::istream& is)
