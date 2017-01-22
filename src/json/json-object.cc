@@ -1,6 +1,5 @@
 #include "json/json-object.hh"
 #include "misc/parse-error.hh"
-#include <cassert>
 
 JsonObject::JsonObject(std::istream& is)
 {
@@ -97,7 +96,9 @@ std::size_t JsonObject::size() const
 const Json& JsonObject::item_get(const std::string& key) const
 {
   auto it = map_.find(key);
-  assert(it != map_.end());
+  if (it == map_.end())
+    throw std::runtime_error{"JsonObject doen't have a field '"
+        + key + "'"};
   return *(it->second);
 }
 
@@ -110,7 +111,9 @@ bool JsonObject::contains(const std::string& key) const
 void JsonObject::erase(const std::string& key)
 {
   auto it = map_.find(key);
-  assert(it != map_.end());
+  if (it == map_.end())
+    throw std::runtime_error{"JsonObject doen't have a field '"
+        + key + "'"};
   delete it->second;
   map_.erase(it);
 }

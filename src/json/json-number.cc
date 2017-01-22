@@ -1,5 +1,4 @@
 #include "json/json-number.hh"
-#include <cassert>
 #include <sstream>
 #include "misc/parse-error.hh"
 
@@ -88,14 +87,18 @@ bool JsonNumber::is_int() const
 
 long JsonNumber::int_get() const
 {
-  assert(is_int_);
-  return ival_;
+  if (is_int_)
+    return ival_;
+  else
+    return dval_;
 }
 
 double JsonNumber::double_get() const
 {
-  assert(!is_int_);
-  return dval_;
+  if (is_int_)
+    return ival_;
+  else
+    return dval_;
 }
 
 void JsonNumber::int_set(long n)

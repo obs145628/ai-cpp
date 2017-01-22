@@ -1,6 +1,5 @@
 #include "json/json-array.hh"
 #include "misc/parse-error.hh"
-#include <cassert>
 
 JsonArray::JsonArray(std::istream& is)
 {
@@ -86,25 +85,37 @@ std::size_t JsonArray::size() const
 
 const Json& JsonArray::item_get(std::size_t pos) const
 {
-  assert(pos < arr_.size());
+  if (pos >= arr_.size())
+    throw std::runtime_error {"Invalid json array index "
+        + std::to_string(pos) + " (size = "
+        + std::to_string(arr_.size()) + ")"};
   return *(arr_[pos]);
 }
 
 void JsonArray::item_set(std::size_t pos, const Json& j)
 {
-  assert(pos < arr_.size());
+  if (pos >= arr_.size())
+    throw std::runtime_error {"Invalid json array index "
+        + std::to_string(pos) + " (size = "
+        + std::to_string(arr_.size()) + ")"};
   delete arr_[pos];
   arr_[pos] = j.clone();
 }
 
 void JsonArray::insert(std::size_t pos, const Json& j)
 {
-  assert(pos <= arr_.size());
+  if (pos > arr_.size())
+    throw std::runtime_error {"Invalid json array index "
+        + std::to_string(pos) + " (size = "
+        + std::to_string(arr_.size()) + ")"};
   arr_.insert(arr_.begin() + pos, j.clone()); 
 }
 void JsonArray::erase(std::size_t pos)
 {
-  assert(pos < arr_.size());
+  if (pos >= arr_.size())
+    throw std::runtime_error {"Invalid json array index "
+        + std::to_string(pos) + " (size = "
+        + std::to_string(arr_.size()) + ")"};
   delete arr_[pos];
   arr_.erase(arr_.begin() + pos);
 }
