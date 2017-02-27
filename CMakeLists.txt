@@ -5,15 +5,19 @@ set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror -pedantic -std=c++14")
 
 include_directories(include/ai)
 
+add_subdirectory(src/graph)
 add_subdirectory(src/io)
 add_subdirectory(src/json)
+add_subdirectory(src/logic)
 add_subdirectory(src/math)
 add_subdirectory(src/misc)
 add_subdirectory(src/shell)
 
 set(SRC
+  $<TARGET_OBJECTS:graph_obj>
   $<TARGET_OBJECTS:io_obj>
   $<TARGET_OBJECTS:json_obj>
+  $<TARGET_OBJECTS:logic_obj>
   $<TARGET_OBJECTS:math_obj>
   $<TARGET_OBJECTS:misc_obj>
   $<TARGET_OBJECTS:shell_obj>
