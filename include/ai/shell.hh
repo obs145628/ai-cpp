@@ -1,5 +1,6 @@
 #pragma once
 
+#include "shell/arguments.hh"
 #include "shell/command.hh"
 #include "shell/date.hh"
 #include "shell/grid.hh"
