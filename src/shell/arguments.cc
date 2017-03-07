@@ -33,3 +33,13 @@ bool Arguments::has_option(char s, const std::string& l) const
 {
   return has_option(s) || has_option(l);
 }
+
+std::size_t Arguments::size() const
+{
+  return args_.size();
+}
+
+const std::string& Arguments::operator[](std::size_t i) const
+{
+  return args_[i];
+}
