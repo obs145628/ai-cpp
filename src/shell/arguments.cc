@@ -34,6 +34,31 @@ bool Arguments::has_option(char s, const std::string& l) const
   return has_option(s) || has_option(l);
 }
 
+std::string Arguments::get_option(char s) const
+{
+  std::string query = "--";
+  query[1] = s;
+  auto it = std::find(args_.begin(), args_.end(), query);
+  if (it == args_.end() || (it + 1) == args_.end())
+    return "";
+  return *(it + 1);
+}
+  
+std::string Arguments::get_option(const std::string& l) const
+{
+  std::string query = "--" + l;
+  auto it = std::find(args_.begin(), args_.end(), query);
+  if (it == args_.end() || (it + 1) == args_.end())
+    return "";
+  return *(it + 1);
+}
+
+std::string Arguments::get_option(char s, const std::string& l) const
+{
+  auto res = get_option(l);
+  return !res.empty() ? res : get_option(s);
+}
+
 std::size_t Arguments::size() const
 {
   return args_.size();
