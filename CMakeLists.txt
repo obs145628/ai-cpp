@@ -12,6 +12,7 @@ add_subdirectory(src/logic)
 add_subdirectory(src/math)
 add_subdirectory(src/misc)
 add_subdirectory(src/shell)
+add_subdirectory(src/test)
 
 set(SRC
   $<TARGET_OBJECTS:graph_obj>
@@ -21,6 +22,7 @@ set(SRC
   $<TARGET_OBJECTS:math_obj>
   $<TARGET_OBJECTS:misc_obj>
   $<TARGET_OBJECTS:shell_obj>
+  $<TARGET_OBJECTS:test_obj>
 )
 
 add_library(ai-cpp SHARED ${SRC})

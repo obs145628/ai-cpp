@@ -6,30 +6,31 @@
 #include <sstream>
 
 #include "shell.hh"
-#include "math.hh"
-#include "logic.hh"
-
-using KB = logic::PropositionalKB;
+#include "test.hh"
 
 int main()
 {
 
-  std::string data = "(a & b => !a) | d & !(c & d)";
-  std::istringstream is(data);
-  logic::Parser parser(is);
-  auto ast = parser.parse();
-  ast = logic::CNF::build(*ast);
-  logic::PrintVisitor::print(std::cout, *ast);
-  delete ast;
+  TestSuite ts;
 
-  return 0;
-  KB kb;
+  ts.begin();
 
-  kb.tell("a => b");
-  kb.tell("!b");
+  ts.begin_part("Calcul");
 
-  std::cout << "a: " << kb.ask("a") << std::endl;
-  std::cout << "!a: " << kb.ask("!a") << std::endl;
-  std::cout << "b: " << kb.ask("b") << std::endl;
-  std::cout << "!b: " << kb.ask("!b") << std::endl;
+  ts.add_equal_test("addition", 1 + 2, 3);
+  ts.add_equal_test("division", double(5 / 2), 2.5);
+  ts.add_equal_test("multiplication", 3 * 2, 6);
+
+  ts.end_part();
+
+  ts.begin_part("String");
+
+  ts.add_equal_test("empty count", 0, -1);
+  ts.add_equal_test("reverse", std::string(".cba"), std::string("cba"));
+  ts.add_equal_test("toupper", std::string("TEST56"), std::string("TEST56"));
+
+  ts.end_part();
+
+  ts.end();
+
 }
