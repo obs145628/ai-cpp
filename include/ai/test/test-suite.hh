@@ -12,6 +12,9 @@ public:
   using part_results_t = std::map<std::string, bool>;
   using results_t = std::map<std::string, part_results_t>;
 
+  const results_t& results_get();
+  const part_results_t& part_get();
+
   void begin();
   void end();
 

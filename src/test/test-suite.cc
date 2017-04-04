@@ -1,6 +1,17 @@
 #include "test/test-suite.hh"
 #include "shell/shell.hh"
 
+
+const TestSuite::results_t& TestSuite::results_get()
+{
+  return results_;
+}
+
+const TestSuite::part_results_t& TestSuite::part_get()
+{
+  return part_results_;
+}
+
 void TestSuite::begin()
 {
 
