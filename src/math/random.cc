@@ -65,6 +65,12 @@ Random::int31_get()
   return val >> 1;
 }
 
+uint64_t
+Random::u64_get()
+{
+  return (uint64_t(int32_get()) << 32) + int32_get();
+}
+
 
 bool
 Random::bool_get()

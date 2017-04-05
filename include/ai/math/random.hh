@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <cstddef>
 #include <vector>
 
 class Random
@@ -16,6 +17,10 @@ public:
   ///Returns n \in [0, 2,147,483,648]
   long
   int31_get();
+
+  ///Returns n \in [0, 2^64 - 1]
+  uint64_t
+  u64_get();
 
 
   bool
