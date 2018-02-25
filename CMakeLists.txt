@@ -1,25 +1,37 @@
-cmake_minimum_required(VERSION 2.8)
+ cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_CXX_COMPILER "g++")
-set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror -pedantic -std=c++14")
+
+set(CXX_BASE_FLAGS "-g3 -Wall -Wextra -Werror -std=c++17")
+#set(CXX_BASE_FLAGS "-Wall -Wextra -Werror -std=c++17 -O3 -DNDEBUG")
 
 include_directories(include/ai)
 
+add_subdirectory(src/bim)
+add_subdirectory(src/dnn)
+add_subdirectory(src/datasets)
 add_subdirectory(src/graph)
+add_subdirectory(src/graphics)
 add_subdirectory(src/io)
 add_subdirectory(src/json)
+add_subdirectory(src/la)
 add_subdirectory(src/logic)
-add_subdirectory(src/math)
+#add_subdirectory(src/math) Old matrix code, TODO: merge with la
 add_subdirectory(src/misc)
 add_subdirectory(src/shell)
 add_subdirectory(src/test)
 
 set(SRC
+  $<TARGET_OBJECTS:bim_obj>
+  $<TARGET_OBJECTS:dnn_obj>
+  $<TARGET_OBJECTS:datasets_obj>
   $<TARGET_OBJECTS:graph_obj>
+  $<TARGET_OBJECTS:graphics_obj>
   $<TARGET_OBJECTS:io_obj>
   $<TARGET_OBJECTS:json_obj>
+  $<TARGET_OBJECTS:la_obj>
   $<TARGET_OBJECTS:logic_obj>
-  $<TARGET_OBJECTS:math_obj>
+  #$<TARGET_OBJECTS:math_obj>
   $<TARGET_OBJECTS:misc_obj>
   $<TARGET_OBJECTS:shell_obj>
   $<TARGET_OBJECTS:test_obj>
@@ -27,27 +39,8 @@ set(SRC
 
 add_library(ai-cpp SHARED ${SRC})
 
+add_subdirectory(examples)
 add_subdirectory(tests)
-
-set(TESTS_SRC
-  $<TARGET_OBJECTS:obs_tests_obj>
-)
-
-
-add_executable(check.out EXCLUDE_FROM_ALL ${TESTS_SRC})
-add_dependencies(check.out ai-cpp)
-target_link_libraries(check.out ai-cpp)
-
-
-add_custom_target(check
-  COMMAND ./check.out
-)
-add_dependencies(check check.out)
-
-add_custom_target(vg
-  COMMAND valgrind --track-fds=yes ./check.out
-)
-add_dependencies(vg check.out)
 
 install(TARGETS ai-cpp
         LIBRARY DESTINATION lib)

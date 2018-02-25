@@ -1,36 +1,20 @@
-#include <cmath>
-#include <iostream>
-#include <fstream>
-#include <unistd.h>
-#include <iostream>
-#include <sstream>
-
-#include "shell.hh"
-#include "test.hh"
+#include "test/test-suite.hh"
+#include "la-types-test.hh"
+#include "tests-test.hh"
 
 int main()
 {
+    auto& test_suite = TestSuite::Instance();
+    test_suite.summary_os_set(std::cout);
+    test_suite.details_os_set(std::cout);
 
-  TestSuite ts;
+    TestsTest t1;
+    LATypesTest t2;
 
-  ts.begin();
+    test_suite.add("test_suite", &t1);
+    test_suite.add("la_types", &t2);
 
-  ts.begin_part("Calcul");
-
-  ts.add_equal_test("addition", 1 + 2, 3);
-  ts.add_equal_test("division", double(5 / 2), 2.5);
-  ts.add_equal_test("multiplication", 3 * 2, 6);
-
-  ts.end_part();
-
-  ts.begin_part("String");
-
-  ts.add_equal_test("empty count", 0, -1);
-  ts.add_equal_test("reverse", std::string(".cba"), std::string("cba"));
-  ts.add_equal_test("toupper", std::string("TEST56"), std::string("TEST56"));
-
-  ts.end_part();
-
-  ts.end();
-
+    test_suite.init();
+    test_suite.run();
+    return 0;
 }

@@ -1,7 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
-
-set(CMAKE_CXX_COMPILER "g++")
-set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror -pedantic -std=c++14 -fPIC")
+set(CMAKE_CXX_FLAGS "${CXX_BASE_FLAGS} -fPIC")
 
 set(SRC
   cholesky.cc

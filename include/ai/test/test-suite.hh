@@ -1,42 +1,46 @@
 #pragma once
 
-#include <map>
+#include <iostream>
 #include <string>
 #include <vector>
+#include "test-register.hh"
 
 class TestSuite
 {
-
 public:
 
-  using part_results_t = std::map<std::string, bool>;
-  using results_t = std::map<std::string, part_results_t>;
+    static TestSuite& Instance();
 
-  const results_t& results_get();
-  const part_results_t& part_get();
+    TestSuite(const TestSuite&) = delete;
+    TestSuite(TestSuite&&) = delete;
+    TestSuite& operator=(const TestSuite&) = delete;
+    TestSuite& operator=(TestSuite&&) = delete;
 
-  void begin();
-  void end();
 
-  void begin_part(const std::string& name);
-  void end_part();
+    void add(const std::string& name, TestRegister* test);
 
-  template <class T>
-  void add_equal_test(const std::string& name,
-                      const T& ref, const T& me);
+    void init();
+    void run();
 
-  void add_test_result(const std::string& name, bool res);
+    void summary_os_set(std::ostream& os);
+    void details_os_set(std::ostream& os);
 
-  void option_disp_succ(bool b);
+    std::ostream& summary_os_get();
+    std::ostream& details_os_get();
 
 private:
-  results_t results_;
-  part_results_t part_results_;
-  std::string part_name_;
-  bool opt_disp_succ_ = true;
 
-  static int count_part_succ_(const part_results_t& part);
-  
+    void begin_test_();
+    void end_test_();
+
+    std::ostream* summary_os_;
+    std::ostream* details_os_;
+
+    std::vector<std::string> tests_names_;
+    std::vector<TestRegister*> tests_objects_;
+    std::size_t current_test_;
+    int ts_success_;
+    int ts_total_;
+
+    TestSuite() = default;
 };
-
-#include "test-suite.hxx"

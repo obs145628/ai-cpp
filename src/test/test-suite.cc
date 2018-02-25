@@ -1,77 +1,85 @@
 #include "test/test-suite.hh"
-#include "shell/shell.hh"
 
-
-const TestSuite::results_t& TestSuite::results_get()
+TestSuite& TestSuite::Instance()
 {
-  return results_;
+    static TestSuite instance;
+    return instance;
 }
 
-const TestSuite::part_results_t& TestSuite::part_get()
+
+void TestSuite::add(const std::string& name, TestRegister* test)
 {
-  return part_results_;
+    tests_names_.push_back(name);
+    tests_objects_.push_back(test);
 }
 
-void TestSuite::begin()
+void TestSuite::summary_os_set(std::ostream& os)
 {
-
+    summary_os_ = &os;
 }
 
-void TestSuite::end()
+void TestSuite::details_os_set(std::ostream& os)
 {
-  int succ = 0;
-  int total = 0;
-  for (auto it : results_)
+    details_os_ = &os;
+}
+
+void TestSuite::init()
+{
+    for (std::size_t i = 0; i < tests_objects_.size(); ++i)
     {
-      succ += count_part_succ_(it.second);
-      total += it.second.size();
+        tests_objects_[i]->init();
     }
-  double percent = succ * 100.0 / total;
-
-  std::cout << Shell::FG_YELLOW << Shell::BOLD
-            << "Global results: "
-            << succ << " / " << total << " (" << percent << "%)\n"
-            << Shell::RESET;
 }
 
-void TestSuite::begin_part(const std::string& name)
+void TestSuite::run()
 {
-  part_name_ = name;
+    ts_success_ = 0;
+    ts_total_ = 0;
 
-  std::cout << Shell::FG_YELLOW << Shell::BOLD
-            << name << ": \n\n" << Shell::RESET;
+    for (current_test_ = 0; current_test_ < tests_objects_.size(); ++current_test_)
+    {
+        begin_test_();
+        tests_objects_[current_test_]->run();
+        end_test_();
+    }
+
+    double acc = ts_total_ == 0 ? 1 : ts_success_ / double(ts_total_);
+    double per = acc * 100.0;
+    per = int(per * 1000) / 1000.0;
+
+    *summary_os_ << "Global Results: "
+                 << ": " << ts_success_ << " / " << ts_total_
+                 << " (" << per << "%)\n";
 }
 
-void TestSuite::end_part()
+void TestSuite::begin_test_()
 {
-  results_.insert(std::make_pair(part_name_, part_results_));
-
-  int succ = count_part_succ_(part_results_);
-  int total = part_results_.size();
-  double percent = succ * 100.0 / total;
-
-  std::cout << "\n" << Shell::FG_YELLOW << Shell::BOLD
-            << part_name_ << " results: "
-            << succ << " / " << total << " (" << percent << "%)\n\n"
-            << Shell::RESET;
-
-  part_results_.clear();
+    *summary_os_ << "Running testsuite " << tests_names_[current_test_] << "\n";
 }
 
-void TestSuite::add_test_result(const std::string& name, bool res)
+void TestSuite::end_test_()
 {
-  part_results_[name] = res;
+    int total = tests_objects_[current_test_]->total_get();
+    int success = tests_objects_[current_test_]->success_get();
+
+    double acc = total == 0 ? 1 : success / double(total);
+    double per = acc * 100.0;
+    per = int(per * 1000) / 1000.0;
+
+    *summary_os_ << "Test suite " << tests_names_[current_test_]
+                 << ": " << success << " / " << total
+                 << " (" << per << "%)\n\n";
+
+    ts_success_ += success;
+    ts_total_ += total;
 }
 
-void TestSuite::option_disp_succ(bool b)
+std::ostream& TestSuite::summary_os_get()
 {
-  opt_disp_succ_ = b;
+    return *summary_os_;
 }
 
-int TestSuite::count_part_succ_(const part_results_t& part)
+std::ostream& TestSuite::details_os_get()
 {
-  int res = 0;
-  for (auto it : part)
-    res += it.second;
-  return res;
+    return *details_os_;
 }
