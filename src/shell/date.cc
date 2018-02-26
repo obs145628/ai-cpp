@@ -1,5 +1,6 @@
 #include "shell/date.hh"
 #include <chrono>
+#include <thread>
 
 long Date::now()
 {
@@ -9,4 +10,9 @@ long Date::now()
   return duration_cast<milliseconds>(
     system_clock::now()
     .time_since_epoch()).count();
+}
+
+void Date::sleep(long ms)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }

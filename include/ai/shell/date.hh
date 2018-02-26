@@ -3,5 +3,6 @@
 class Date
 {
 public:
-  static long now();
+    static long now();
+    void sleep(long ms);
 };
