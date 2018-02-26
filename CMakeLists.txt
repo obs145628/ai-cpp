@@ -46,6 +46,7 @@ set(SRC
 )
 
 add_library(ai-cpp SHARED ${SRC})
+target_link_libraries(ai-cpp ${SFML_LIBRARIES})
 
 add_subdirectory(examples)
 add_subdirectory(tests)
