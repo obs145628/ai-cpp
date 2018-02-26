@@ -4,5 +4,5 @@ class Date
 {
 public:
     static long now();
-    void sleep(long ms);
+    static void sleep(long ms);
 };
