@@ -33,3 +33,7 @@ set(SRC
 
 add_library(ai-cpp SHARED ${SRC})
 target_link_libraries(ai-cpp ${SFML_LIBRARIES})
+
+install(TARGETS ai-cpp
+        LIBRARY DESTINATION lib)
+install(DIRECTORY include/ai DESTINATION include)
