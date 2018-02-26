@@ -1,7 +1,7 @@
 #pragma once
 
 #include "xor-shift.hh"
-#include "date.hh"
+#include "../shell/date.hh"
 
 inline XorShift64::XorShift64()
         : XorShift64(Date::now())
