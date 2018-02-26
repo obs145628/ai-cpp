@@ -1,3 +1,5 @@
+include_directories(../include/ai)
+
 add_subdirectory(bim)
 add_subdirectory(dnn)
 add_subdirectory(datasets)
