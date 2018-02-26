@@ -1,6 +1,6 @@
 #include <fstream>
 #include "fwd.hh"
-#include "la/tensor.hh"
+#include "../la/tensor.hh"
 
 #pragma once
 

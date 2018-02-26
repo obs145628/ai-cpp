@@ -1,6 +1,6 @@
 #pragma once
 
-#include "la/matrix.hh"
+#include "../la/matrix.hh"
 
 namespace norm4
 {

@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include "la/matrix.hh"
-#include "la/vector.hh"
+#include "../la/matrix.hh"
+#include "../la/vector.hh"
 
 class Activation;
 class Layer;

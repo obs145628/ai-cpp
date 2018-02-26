@@ -4,7 +4,7 @@
 #include <iostream>
 #include "real-chunk.hh"
 #include "shape.hh"
-#include "io/serial.hh"
+#include "../io/serial.hh"
 
 
 class Vector
