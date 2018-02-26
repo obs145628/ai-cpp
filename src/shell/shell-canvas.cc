@@ -2,6 +2,12 @@
 #include <iostream>
 #include "shell/shell.hh"
 
+ShellCanvas& ShellCanvas::instance()
+{
+    static ShellCanvas cvs;
+    return cvs;
+}
+
 ShellCanvas::ShellCanvas()
 {
   clear();
